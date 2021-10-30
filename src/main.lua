@@ -10,8 +10,8 @@ player = {
     y = 0,
     z = 10,
     pitch = 0,
-    scanLines = 1,
-    angle = 0
+    scanLines = 3,
+    angle = 230
 
 }
 
@@ -66,19 +66,19 @@ function love.update(dt)
 
     -- Movimentos básicos
 
-	--player.angle = player.angle % 360
+	player.angle = player.angle % 360
 
 	--love.window.setTitle(player.angle % 400)
     love.window.setTitle("X: " .. player.x .. " Y: " .. player.y .. " A: " .. player.angle)
 
     if love.keyboard.isDown("w") then
-        player.x = player.x + (100 * math.cos(player.angle * math.pi / 180)) * dt
-        player.y = player.y + (100 * math.sin(player.angle * math.pi / 180)) * dt
+        player.x = player.x + (300 * math.cos(math.rad(player.angle))) * dt
+        player.y = player.y + (300 * math.sin(math.rad(player.angle))) * dt
 	end
 
     if love.keyboard.isDown("s") then
-        player.x = player.x - (100 * math.cos(player.angle * math.pi / 180)) * dt
-        player.y = player.y - (100 * math.sin(player.angle * math.pi / 180)) * dt
+        player.x = player.x - (300 * math.cos(player.angle * math.pi / 180)) * dt
+        player.y = player.y - (300 * math.sin(player.angle * math.pi / 180)) * dt
 	end
 
 	if love.keyboard.isDown("a") then

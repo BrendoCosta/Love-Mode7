@@ -46,7 +46,7 @@ local self = {
         rotationSin     = 0,  -- Rotation angle's sin
         rotationCos     = 0,  -- Rotation angle's cos
         zoom            = 0,  -- Zoom
-        fov             = 0,
+        fov             = 0,  -- FOV
         pitch           = 0,  -- Pitch
         horizon         = 0,  -- Horizon
         scanLines       = 0   -- Scan lines
@@ -106,8 +106,8 @@ end
 function self.update(_positionX, _positionY, _positionZ, _rotationAngle,
                      _zoom, _fov, _pitch, _horizon, _scanLines)
 
-    self.camera.positionX       = _positionX
-    self.camera.positionY       = _positionY
+    self.camera.positionX       = (_positionX + self.mapLength)
+    self.camera.positionY       = (_positionY + self.mapWidth)
     self.camera.positionZ       = _positionZ
     self.camera.rotationSin     = math.sin(math.rad(_rotationAngle))
     self.camera.rotationCos     = math.cos(math.rad(_rotationAngle))
@@ -149,12 +149,12 @@ function self.draw()
         px = self.camera.positionX + distance * self.camera.rotationCos
              * self.camera.zoom - self.screenWidth / 2 * rx
 
-        py = self.camera.positionY + distance * self.camera.rotationSin
-             * self.camera.zoom - self.screenWidth / 2 * ry
+        py = (self.camera.positionY + distance * self.camera.rotationSin
+             * self.camera.zoom - self.screenWidth / 2 * ry)
 
         for x = 0, self.screenWidth, 1 do
-            if (math.abs(px + self.camera.fov) < self.mapWidth + self.camera.fov)
-            and (math.abs(py + self.camera.fov) < self.mapWidth + self.camera.fov)
+            if (math.abs(px * -1) < self.mapWidth)
+            and (math.abs(py * -1) < self.mapLength)
             then
                 pixelX = math.floor(math.abs(px % self.imageWidth))
                 pixelY = math.floor(math.abs(py % self.imageHeight))
