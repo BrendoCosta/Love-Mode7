@@ -149,8 +149,8 @@ function self.draw()
         px = self.camera.positionX + distance * self.camera.rotationCos
              * self.camera.zoom - self.screenWidth / 2 * rx
 
-        py = (self.camera.positionY + distance * self.camera.rotationSin
-             * self.camera.zoom - self.screenWidth / 2 * ry)
+        py = self.camera.positionY + distance * self.camera.rotationSin
+             * self.camera.zoom - self.screenWidth / 2 * ry
 
         for x = 0, self.screenWidth, 1 do
             if (math.abs(px * -1) < self.mapWidth)
