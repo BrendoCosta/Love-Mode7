@@ -1,9 +1,12 @@
 --local __GLOBALCONFS = require "config/global"
 --local graph         = require "lib/utils"
+
 local modeSevenLib = require "include/mode_seven"
 local graph = require "include/utils"
 local screenW = 800
 local screenH = 600
+local debugar = 1
+
 player = {
 
     x = 0,
@@ -11,23 +14,13 @@ player = {
     z = 10,
     pitch = 0,
     scanLines = 3,
-    angle = 230
+    angle = 180
 
 }
 
-vec = {
-
-    x = {100},
-    y = {100},
-    z = {10}
-
-}
-
-local imagedata = love.image.newImageData("assets/map_1.png")
+local mapFile = love.image.newImageData("assets/map_1.png")
 
 function love.load()
-
-	-- @ Main engine configurations
 
 	love.window.setMode(screenW, screenH, {
 
@@ -41,27 +34,10 @@ function love.load()
 
     --love.window.setTitle("Floppalístico")
 
-	modeSevenLib.init(screenW, screenH, 512, 512, imagedata)
+	modeSevenLib.init(screenW, screenH, 512, 512, mapFile)
 
 end
-local nx = 0
-local ny = 0
---------------------------------------------------------------------------------------
---------------------------------------------------------------------------------------
---------------------------------------------------------------------------------------
-function vec:update(ox, oy, px, py, angle)
 
-    --nx = ox + math.cos(angle) * (px - ox) - math.sin(angle) * (py - oy)
-    --ny = oy + math.sin(angle) * (px - ox) + math.cos(angle) * (py - oy)
-
-    --for i = 0, nx do
-    --    vec.x[i] = (player.x + i)
-    --end
-    --for i = 0, ny do
-    --    vec.y[i] = (player.y + i)
-    --end
-
-end
 function love.update(dt)
 
     -- Movimentos básicos
@@ -72,21 +48,25 @@ function love.update(dt)
     love.window.setTitle("X: " .. player.x .. " Y: " .. player.y .. " A: " .. player.angle)
 
     if love.keyboard.isDown("w") then
-        player.x = player.x + (300 * math.cos(math.rad(player.angle))) * dt
-        player.y = player.y + (300 * math.sin(math.rad(player.angle))) * dt
+        --player.x = player.x - (300 * math.cos(math.rad(player.angle))) * dt
+        --player.y = player.y - (300 * math.sin(math.rad(player.angle))) * dt
+        player.y = player.y + 100 * dt
 	end
 
     if love.keyboard.isDown("s") then
-        player.x = player.x - (300 * math.cos(player.angle * math.pi / 180)) * dt
-        player.y = player.y - (300 * math.sin(player.angle * math.pi / 180)) * dt
+        --player.x = player.x + (300 * math.cos(math.rad(player.angle))) * dt
+        --player.y = player.y + (300 * math.sin(math.rad(player.angle))) * dt
+        player.y = player.y - 100 * dt
 	end
 
 	if love.keyboard.isDown("a") then
-		player.angle = player.angle - 100 * dt
+		--player.angle = player.angle - 100 * dt
+        player.x = player.x - 100 * dt
 	end
 
     if love.keyboard.isDown("d") then
-        player.angle = player.angle + 100 * dt
+        --player.angle = player.angle + 100 * dt
+        player.x = player.x + 100 * dt
 	end
 
     -- Altura Z
@@ -127,31 +107,25 @@ function love.update(dt)
 		player.scanLines = player.scanLines - 1
 	end
 
-	modeSevenLib.update(player.x,
-						player.y,
-						player.z,
-						player.angle,
-						1,
-                        1000,
-						player.pitch,
-						screenH/2,
-						player.scanLines)
+    if love.keyboard.isDown("f") then
+		debugar = debugar + 1 * dt
+	end
+	if love.keyboard.isDown("g") and player.scanLines > 1 then
+		debugar = debugar - 1 * dt
+	end
+
+    modeSevenLib.camera.setPosition(player.x, player.y, player.z)
+    modeSevenLib.camera.setRotation(player.angle)
+    modeSevenLib.camera.setPitch(player.pitch)
+    modeSevenLib.camera.setHorizon(screenH/2)
+    modeSevenLib.camera.setScanLines(player.scanLines)
+    modeSevenLib.camera.setZoom(1)
 
 end
 
---------------------------------------------------------------------------------------
---------------------------------------------------------------------------------------
---------------------------------------------------------------------------------------
 
 function love.draw()
 
-	modeSevenLib.draw()
-    ----------------------------------------------------------------------------
-    graph.setHexColor("FF0000", 1)
-    love.graphics.points(player.x % 100, player.y % 100)
+	modeSevenLib.draw3(debugar)
 
-    --vec:update(player.x, player.y, player.x+100, player.y, math.rad(player.angle))
-
-    --graph.setHexColor("FF0000", 1)
-    --love.graphics.points(nx, ny)
 end
