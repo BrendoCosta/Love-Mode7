@@ -207,7 +207,7 @@ end
 
 function self.draw()
 
-    -- We want to start from image's bottom to horizon,
+    -- We want to start from screen's horizon to bottom,
     -- decreasing after every loop. This get the effect's
     -- explanation a little friendly using the Z's gradient
     -- as an example.
@@ -232,7 +232,7 @@ function self.draw()
 
         -- Z's projection
 
-        projection.z = screenY - self.camera.screen.horizon
+        projection.z = self.camera.screen.horizon - screenY
         if projection.z == 0 then projection.z = projection.z + 1 end
 
         for screenX = 0, self.camera.screen.width, 1 do

@@ -40,7 +40,7 @@ local windowHeight = 600
 
 -- Set "enableRotationTest = true" for the auto rotating example
 
-local enableRotationTest = false
+local enableRotationTest = true
 local autorotationAngle  = 0
 
 -- Player / Controllable Camera
@@ -105,15 +105,15 @@ function love.update(dt)
 
     if love.keyboard.isDown("w") then
 
-        player.x = player.x + (100 * math.cos(math.rad(player.angle))) * dt
-        player.y = player.y + (100 * math.sin(math.rad(player.angle))) * dt
+        player.x = player.x - (100 * math.cos(math.rad(player.angle))) * dt
+        player.y = player.y - (100 * math.sin(math.rad(player.angle))) * dt
 
 	end
 
     if love.keyboard.isDown("s") then
 
-        player.x = player.x - (100 * math.cos(math.rad(player.angle))) * dt
-        player.y = player.y - (100 * math.sin(math.rad(player.angle))) * dt
+        player.x = player.x + (100 * math.cos(math.rad(player.angle))) * dt
+        player.y = player.y + (100 * math.sin(math.rad(player.angle))) * dt
 
 	end
 
@@ -145,13 +145,13 @@ function love.update(dt)
 
     if love.keyboard.isDown("z") then
 
-		player.pitch = player.pitch + 100 * dt
+		player.pitch = player.pitch - 100 * dt
 
 	end
 
     if love.keyboard.isDown("x") then
 
-        player.pitch = player.pitch - 100 * dt
+        player.pitch = player.pitch + 100 * dt
 
 	end
 
@@ -186,7 +186,7 @@ function love.update(dt)
         player.x = newX
         player.y = newY
 
-        player.angle = ( math.atan2(256 - newY, 256 - newX) * (180 / math.pi) )
+        player.angle = ( math.atan2(256 - newY, 256 - newX) * (180 / math.pi) + 180)
 
     end
 
