@@ -53,7 +53,7 @@ local player = {
     y = 256,
     z = 20,
     pitch = 0,
-    angle = 0,
+    angle = 180,
     scanLines = 1
 
 }
@@ -178,15 +178,27 @@ function love.update(dt)
         mapCenterX = 256
         mapCenterY = 256
 
-        autorotationAngle = (autorotationAngle + 1 * ( (1 / 3600) % 1) * math.cos(mapCenterX) ) % 1
+        -- We use this to make autorotationAngle increase slowly
+        -- If you want a reverse rotation, just put a "* -1" after the attribution
+        -- 360/6 = 60 s for a complete rotation (aprox., because dt)
 
-        newX = math.cos(math.rad(autorotationAngle)) * (player.x - 256) - math.sin(math.rad(autorotationAngle)) * (player.y - 256) + 256
-        newY = math.sin(math.rad(autorotationAngle)) * (player.x - 256) + math.cos(math.rad(autorotationAngle)) * (player.y - 256) + 256
+        autorotationAngle = ( (autorotationAngle + 6 ) * dt % 360 )
+
+        -- To rotate the point (px, py) around another point (ox, oy) by angle theta:
+        -- p'x = cos(theta) * (px - ox) - sin(theta) * (py - oy) + ox
+        -- p'y = sin(theta) * (px - ox) + cos(theta) * (py - oy) + oy
+
+        newX = math.cos(math.rad(autorotationAngle)) * (player.x - mapCenterX) - math.sin(math.rad(autorotationAngle)) * (player.y - mapCenterY) + mapCenterX
+        newY = math.sin(math.rad(autorotationAngle)) * (player.x - mapCenterX) + math.cos(math.rad(autorotationAngle)) * (player.y - mapCenterY) + mapCenterY
 
         player.x = newX
         player.y = newY
 
-        player.angle = ( math.atan2(256 - newY, 256 - newX) * (180 / math.pi) + 180)
+        -- To keep views angle facing the map's center:
+
+        player.angle = math.atan2(mapCenterY - newY, mapCenterX - newX)
+        player.angle = player.angle * (180 / math.pi)
+        player.angle = player.angle + 180 -- A little adjust
 
     end
 
