@@ -40,7 +40,7 @@ local windowHeight = 600
 
 -- Set "enableRotationTest = true" for the auto rotating example
 
-local enableRotationTest = false
+local enableRotationTest = true
 local autorotationAngle  = 0
 
 -- Player / Controllable Camera
@@ -53,7 +53,7 @@ local player = {
     y = 256,
     z = 20,
     pitch = 0,
-    angle = 180,
+    angle = 0,
     scanLines = 1
 
 }
