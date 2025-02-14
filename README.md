@@ -14,7 +14,7 @@ This is a implementation of the SNES's "Mode 7" graphical mode written in Lua wi
 ## Screenshots
 
 <p align="center">
-    <img src="https://i.imgur.com/TmYSlkQ.png">
-    <img src="https://i.imgur.com/c8ELhgb.png">
-    <img src="https://i.imgur.com/A3526g3.png">
+    <img src="https://i.imgur.com/1El58kX.png">
+    <img src="https://i.imgur.com/eWsYFTA.png">
+    <img src="https://i.imgur.com/1ztdQWi.png">
 </p>
